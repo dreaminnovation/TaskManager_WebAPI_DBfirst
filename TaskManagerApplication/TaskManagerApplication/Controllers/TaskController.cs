@@ -106,7 +106,7 @@ namespace TaskManagerApplication.Controllers
 
 
         [HttpDelete]
-        [Route("DeleteTask")]
+        [Route("DeleteTask/{TaskId}")]
         public IHttpActionResult DeleteTask(int TaskId)
         {
             TaskDetail objTaskdtl = ObjTMEntities.TaskDetails.Find(TaskId);
@@ -131,7 +131,7 @@ namespace TaskManagerApplication.Controllers
 
         [HttpGet]
         [Route("GetTask/{filter}/{value}")]
-        public List<TaskDetail> GetFilteredTaskDetails(string filter, string value)
+        public IEnumerable<TaskDetail> GetFilteredTaskDetails(string filter, string value)
         {
             List<TaskDetail> lstTask = new List<TaskDetail>();
             try

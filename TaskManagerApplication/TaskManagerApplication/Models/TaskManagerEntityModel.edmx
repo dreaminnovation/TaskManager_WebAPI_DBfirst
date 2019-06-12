@@ -4,9 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="TaskManagerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TaskManager.dbo.ParentTaskDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+    <Schema Namespace="TaskManagerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ParentTaskDetails">
           <Key>
             <PropertyRef Name="Parent_ID" />
@@ -14,8 +12,6 @@ warning 6002: The table/view 'TaskManager.dbo.ParentTaskDetails' does not have a
           <Property Name="Parent_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Parent_Task" Type="varchar" MaxLength="50" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TaskManager.dbo.TaskDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TaskDetails">
           <Key>
             <PropertyRef Name="Task_ID" />
@@ -28,35 +24,17 @@ warning 6002: The table/view 'TaskManager.dbo.TaskDetails' does not have a prima
           <Property Name="Priority" Type="int" />
         </EntityType>
         <EntityContainer Name="TaskManagerModelStoreContainer">
-          <EntitySet Name="ParentTaskDetails" EntityType="Self.ParentTaskDetails" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [ParentTaskDetails].[Parent_ID] AS [Parent_ID], 
-    [ParentTaskDetails].[Parent_Task] AS [Parent_Task]
-    FROM [dbo].[ParentTaskDetails] AS [ParentTaskDetails]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="TaskDetails" EntityType="Self.TaskDetails" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [TaskDetails].[Task_ID] AS [Task_ID], 
-    [TaskDetails].[Parent_ID] AS [Parent_ID], 
-    [TaskDetails].[TaskName] AS [TaskName], 
-    [TaskDetails].[Start_Date] AS [Start_Date], 
-    [TaskDetails].[End_Date] AS [End_Date], 
-    [TaskDetails].[Priority] AS [Priority]
-    FROM [dbo].[TaskDetails] AS [TaskDetails]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="ParentTaskDetails" EntityType="Self.ParentTaskDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaskDetails" EntityType="Self.TaskDetails" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TaskManagerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="ParentTaskDetail">
-          <Key>
-            <PropertyRef Name="Parent_ID" />
-          </Key>
-          <Property Name="Parent_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Parent_Task" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
+        <EntityContainer Name="TaskManagerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TaskDetails" EntityType="TaskManagerModel.TaskDetail" />
+          <EntitySet Name="ParentTaskDetails" EntityType="TaskManagerModel.ParentTaskDetail" />
+        </EntityContainer>
         <EntityType Name="TaskDetail">
           <Key>
             <PropertyRef Name="Task_ID" />
@@ -68,33 +46,36 @@ warning 6002: The table/view 'TaskManager.dbo.TaskDetails' does not have a prima
           <Property Name="End_Date" Type="DateTime" Precision="3" />
           <Property Name="Priority" Type="Int32" />
         </EntityType>
-        <EntityContainer Name="TaskManagerEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="ParentTaskDetails" EntityType="Self.ParentTaskDetail" />
-          <EntitySet Name="TaskDetails" EntityType="Self.TaskDetail" />
-        </EntityContainer>
+        <EntityType Name="ParentTaskDetail">
+          <Key>
+            <PropertyRef Name="Parent_ID" />
+          </Key>
+          <Property Name="Parent_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Parent_Task" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="TaskManagerModelStoreContainer" CdmEntityContainer="TaskManagerEntities">
-          <EntitySetMapping Name="ParentTaskDetails">
-            <EntityTypeMapping TypeName="TaskManagerModel.ParentTaskDetail">
-              <MappingFragment StoreEntitySet="ParentTaskDetails">
-                <ScalarProperty Name="Parent_ID" ColumnName="Parent_ID" />
-                <ScalarProperty Name="Parent_Task" ColumnName="Parent_Task" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TaskDetails">
             <EntityTypeMapping TypeName="TaskManagerModel.TaskDetail">
               <MappingFragment StoreEntitySet="TaskDetails">
-                <ScalarProperty Name="Task_ID" ColumnName="Task_ID" />
-                <ScalarProperty Name="Parent_ID" ColumnName="Parent_ID" />
-                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
-                <ScalarProperty Name="Start_Date" ColumnName="Start_Date" />
-                <ScalarProperty Name="End_Date" ColumnName="End_Date" />
                 <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="End_Date" ColumnName="End_Date" />
+                <ScalarProperty Name="Start_Date" ColumnName="Start_Date" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="Parent_ID" ColumnName="Parent_ID" />
+                <ScalarProperty Name="Task_ID" ColumnName="Task_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ParentTaskDetails">
+            <EntityTypeMapping TypeName="TaskManagerModel.ParentTaskDetail">
+              <MappingFragment StoreEntitySet="ParentTaskDetails">
+                <ScalarProperty Name="Parent_Task" ColumnName="Parent_Task" />
+                <ScalarProperty Name="Parent_ID" ColumnName="Parent_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

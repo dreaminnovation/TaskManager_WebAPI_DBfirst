@@ -25,7 +25,7 @@ namespace TaskManagerApplication.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<ParentTaskDetail> ParentTaskDetails { get; set; }
         public virtual DbSet<TaskDetail> TaskDetails { get; set; }
+        public virtual DbSet<ParentTaskDetail> ParentTaskDetails { get; set; }
     }
 }

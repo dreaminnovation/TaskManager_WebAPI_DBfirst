@@ -5,8 +5,8 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="485cc3146d0d48529d63a1ae46383d79" Name="Diagram1">
-        <EntityTypeShape EntityType="TaskManagerModel.ParentTaskDetail" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="TaskManagerModel.TaskDetail" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskManagerModel.TaskDetail" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="TaskManagerModel.ParentTaskDetail" Width="1.5" PointX="2.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
