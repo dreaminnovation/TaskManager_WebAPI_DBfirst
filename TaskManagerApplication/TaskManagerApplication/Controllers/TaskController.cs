@@ -22,6 +22,7 @@ namespace TaskManagerApplication.Controllers
         [HttpGet]
         [Route("GetTask")]
         public IEnumerable<TaskDetail> GetAllTasks()
+
         {
             try
             {
@@ -149,8 +150,20 @@ namespace TaskManagerApplication.Controllers
                                    select lst).ToList();
                         break;
                     case "Priority":
+                        string[] arrayPriority = value.Split('|').ToArray();
+                        int strtpriority = Convert.ToInt32(arrayPriority[0]);
+                        int endpriority = Convert.ToInt32(arrayPriority[1]);
                         lstTask = (from lst in ObjTMEntities.TaskDetails
-                                   where lst.Priority.Equals(value)
+                                   where (lst.Priority > strtpriority && lst.Priority < endpriority)
+                                   select lst).ToList();
+                        break;
+                    case "Start_Date":
+                        string[] arrayStartDate = value.Split('|').ToArray();
+                        DateTime dtStartDate = Convert.ToDateTime(arrayStartDate[0]);
+                        DateTime dtEndDate = Convert.ToDateTime(arrayStartDate[1]);
+
+                        lstTask = (from lst in ObjTMEntities.TaskDetails
+                                   where (lst.Start_Date > dtStartDate && lst.End_Date < dtEndDate)
                                    select lst).ToList();
                         break;
                 }
